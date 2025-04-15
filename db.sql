@@ -10,3 +10,9 @@ CREATE TABLE tarefa (
     PRIMARY KEY (id),
     INDEX(name)
 ); 
+
+
+ INSERT INTO tarefa (nome, prioridade, esta_feita) VALUES
+ ('Comprar um tenis', 2, true),
+ ('Renovar identidate', 2, false),
+ ('Pintar a parede do quarto', NULL, true);

@@ -4,16 +4,15 @@ class TarefaController
 {
     private $conexao = null;
 
-    public function __construct(PDO $database)
+    public function __construct(PDO $conexao)
     {   
-        $this->conexao = $database;
+        $this->conexao = $conexao;
     }
 
-    public function listar(): array
+    public function listar()
     {
-        $sql = "SELECT * FROM tarefas ORDER BY nome";
-        $ps = $this->conexao->prepare($sql);
-
+        $sql = "SELECT * FROM tarefa ORDER BY nome";
+        $ps = $this->conexao->query($sql);
         return $ps->fetchAll(PDO::FETCH_ASSOC);
     }
 

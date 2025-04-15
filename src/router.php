@@ -2,7 +2,7 @@
 
 $url = $_SERVER['REQUEST_URI'];
 $metodo = $_SERVER['REQUEST_METHOD'];
-$db = new Database($config);
+$db = new Database($config['database']);
 $controller = new TarefaController($db->conectar());
 
 $rotaEncontrada = false;
@@ -15,7 +15,7 @@ if ($metodo === 'GET' && preg_match('/^\/api\/tarefas\/([0-9]+)\/?$/i', $url, $c
 } elseif ($metodo === 'GET' && preg_match('/^\/api\/tarefas\/?$/i', $url)) {
     // Listar todas as tarefas
     $rotaEncontrada = true;
-    $controller->listar();
+    echo json_encode($controller->listar());
 } elseif ($metodo === 'POST' && preg_match('/^\/api\/tarefas\/?$/i', $url)) {
     // Criar nova tarefa
     $rotaEncontrada = true;
@@ -31,7 +31,6 @@ if ($metodo === 'GET' && preg_match('/^\/api\/tarefas\/([0-9]+)\/?$/i', $url, $c
     list(, $id) = $casamentos;
     $controller->remover($id);
 }
-
 
 if (!$rotaEncontrada) {
     if (preg_match('#^/api/tarefas(/([0-9]+))?/?$#', $url)) {
