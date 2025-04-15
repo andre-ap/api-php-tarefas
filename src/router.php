@@ -2,7 +2,8 @@
 
 $url = $_SERVER['REQUEST_URI'];
 $metodo = $_SERVER['REQUEST_METHOD'];
-$controller = new TarefaController;
+$db = new Database($config);
+$controller = new TarefaController($db->conectar());
 
 $rotaEncontrada = false;
 

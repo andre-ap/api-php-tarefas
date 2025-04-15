@@ -2,15 +2,24 @@
 
 class TarefaController
 {
+    private $conexao = null;
+
+    public function __construct(PDO $database)
+    {   
+        $this->conexao = $database;
+    }
+
+    public function listar(): array
+    {
+        $sql = "SELECT * FROM tarefas ORDER BY nome";
+        $ps = $this->conexao->prepare($sql);
+
+        return $ps->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     public function buscar(string $id): void
     {
         echo "Buscar com {$id}";
-    }
-
-    public function listar(): void
-    {
-        echo 'Listar Tarefas';
     }
 
     public function criar(): void
@@ -28,3 +37,4 @@ class TarefaController
         echo "Remover tarefa {$id}";
     }
 }
+
