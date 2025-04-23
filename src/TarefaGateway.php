@@ -16,21 +16,32 @@ class TarefaGateway
         $ps = $this->conexao->prepare($sql);
         $ps->execute();
 
-        $data = [];
+        $resultado = [];
 
         while ($linha = $ps->fetch(PDO::FETCH_ASSOC)) {
+            // Tra
 
-            $linha['esta_feita'] = (bool) $linha['esta_completa'];
-
-            $data[] = $linha;
+            $resultado[] = $linha;
         }
 
-        return $data;
+        return $resultado;
     }
 
-    public function buscar(string $id): void
+    public function buscar(string $id): array | false
     {
-        echo "Buscar com {$id}";
+        $sql = "SELECT * FROM tarefa WHERE id = :id";
+
+        $ps = $this->conexao->prepare($sql);
+        $ps->bindValue(":id", $id);
+        $ps->execute();
+
+        $resultado = $ps->fetch(PDO::FETCH_ASSOC);
+
+        if ($resultado !== false) {
+            $resultado['esta_feita'] = (bool) $resultado['esta_feita'];
+        }
+
+        return $resultado;
     }
 
     public function criar(): void

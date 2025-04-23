@@ -13,7 +13,7 @@ class Router
             // Busca tarefa com ID
             $rotaEncontrada = true;
             list(, $id) = $casamentos;
-            $gateway->buscar($id);
+            echo json_encode ($gateway->buscar($id));
         } elseif ($metodo === 'GET' && preg_match('/^\/api\/tarefas\/?$/i', $url)) {
             // Listar todas as tarefas
             $rotaEncontrada = true;
