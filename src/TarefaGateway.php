@@ -1,19 +1,31 @@
 <?php
 
-class TarefaController
+class TarefaGateway
 {
     private $conexao = null;
 
-    public function __construct(PDO $conexao)
-    {   
-        $this->conexao = $conexao;
+    public function __construct(Database $database)
+    {
+        $this->conexao = $database->conectar($database);
     }
 
     public function listar()
     {
         $sql = "SELECT * FROM tarefa ORDER BY nome";
-        $ps = $this->conexao->query($sql);
-        return $ps->fetchAll(PDO::FETCH_ASSOC);
+
+        $ps = $this->conexao->prepare($sql);
+        $ps->execute();
+
+        $data = [];
+
+        while ($linha = $ps->fetch(PDO::FETCH_ASSOC)) {
+
+            $linha['esta_feita'] = (bool) $linha['esta_completa'];
+
+            $data[] = $linha;
+        }
+
+        return $data;
     }
 
     public function buscar(string $id): void
@@ -36,4 +48,3 @@ class TarefaController
         echo "Remover tarefa {$id}";
     }
 }
-
