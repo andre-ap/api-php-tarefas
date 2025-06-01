@@ -1,7 +1,21 @@
 {
+    "name": "andre/api-php-tarefas",
+    "description": "Uma API simples para gerenciar tarefas",
+    "type": "project",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
-            "": "src/"
+            "Src\\": "src/"
         }
+    },
+    "authors": [
+        {
+            "name": "Andre Pinto",
+            "email": "andrepinto.cg@gmail.com"
+        }
+    ],
+    "require": {
+        "slim/slim": "^4.0",
+        "slim/psr7": "^1.7"
     }
 }
