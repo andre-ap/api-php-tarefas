@@ -6,17 +6,21 @@ ini_set("display_errors", "On");
 
 require __DIR__ . '/vendor/autoload.php';
 
-
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
+use DI\Container;
 use Slim\Factory\AppFactory;
 use Src\Controllers\TarefaController;
-use Slim\Exception\HttpNotFoundException;
-use Slim\Exception\HttpMethodNotAllowedException;
 use Src\Exception\TratadorDeErros;
+use Src\Gateway\TarefaGateway;
 
 set_exception_handler([TratadorDeErros::class, 'tratarException']);
 
+$container = new Container();
+
+$container->set(TarefaGateway::class, function () {
+    return new TarefaGateway();
+});
+
+AppFactory::setContainer($container);
 $app = AppFactory::create();
 
 $app->get('/api/tarefas/', [TarefaController::class, 'listarTodas']);

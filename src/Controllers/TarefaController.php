@@ -4,18 +4,18 @@ namespace Src\Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Src\Services\Database;
-use Src\Services\RepositorioTarefaEmBDR;
-
+use Src\Gateway\TarefaGateway;
 
 class TarefaController
 {
-
+    public function __construct(private TarefaGateway $gateway) {}
+    
     public function buscar(Request $request, Response $response, array $args = []): Response
     {
-        $response->getBody()->write("Buscar Tarefas");
-        return $response;
-    }
+        $resultado = $this->gateway->listarTarefas();
+        $response->getBody()->write(json_encode($resultado));
+        return $response->withHeader('Content-Type', 'application/json');
+    }   
 
     public function listarTodas(Request $request, Response $response, array $args = []): Response
     {
