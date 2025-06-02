@@ -22,6 +22,31 @@ class TarefaGateway
 
         $ps = $this->conexao->query($sql);
 
-        return $ps->fetchAll(PDO::FETCH_ASSOC);
+        $tarefas = $ps->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($tarefas as &$tarefa) {
+            $tarefa['estado'] = $tarefa['estado'] ? 'feita' : 'não feita';
+        }
+
+        return $tarefas;
+    }
+
+    public function buscar(string $id): array | false
+    {
+        $sql = "SELECT *
+                FROM tarefa
+                WHERE id = :id";
+
+        $ps = $this->conexao->prepare($sql);
+
+        $ps->execute(['id' => $id]);
+
+        $tarefa = $ps->fetch(PDO::FETCH_ASSOC);
+
+        if ($tarefa !== false) {
+            $tarefa['estado'] = $tarefa['estado'] ? 'feita' : 'não feita';
+        }
+
+        return $tarefa;
     }
 }
